@@ -20,10 +20,20 @@ Original supplied discussions are in `docs/chats/`; their claims require verific
   to the general roadmap is not a substitute. Distinguish completed work from plans.
 - Clearly distinguish proposed work, documented past results, freshly measured results,
   and inference. Never report a model score unless that model actually ran.
-- **Commit and push frequently at meaningful completed milestones.** Use explicit file
-  staging; keep commits cohesive. Do not wait for the whole research program to finish.
-  Do not force-push, rewrite user history, or include unrelated user edits. Report push
-  failures without claiming a remote checkpoint exists.
+- **Commit and push each completed, verified slice immediately.** Separate protocol/
+  acquisition, parser/integration, and result checkpoints; do not accumulate them into
+  one end-of-phase commit. Push each commit before starting the next lengthy slice.
+- **Checkpoint cadence: target 10–15 minutes of active work between remote checkpoints.**
+  At 15 minutes, checkpoint any cohesive, verified work already complete. If code is
+  not ready, commit a sanitized latest-LOG progress checkpoint stating completed
+  evidence, outstanding work and the concrete blocker; never commit broken code merely
+  to meet the clock. Checkpoint the frozen protocol before a lengthy acquisition/run,
+  then record and push results promptly afterward. Do not interrupt a running model
+  just for a timer or stage files another agent is still editing.
+- Use explicit file staging and keep commits cohesive. Do not force-push, rewrite user
+  history, include unrelated user edits or stage secrets/raw licensed data. A local
+  commit is not a remote checkpoint: report push failures immediately without claiming
+  success, resolve them when safe, and include the successfully pushed hash in updates.
 - Update README links when adding a major research entrypoint. Preserve original chats.
 
 ## Secrets, data, and external projects

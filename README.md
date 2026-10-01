@@ -14,6 +14,8 @@ engineering checks. No trading integration.
 - [Authorized local model results and macro-first continuation](docs/logs/LOG-004.md)
 - [GDP-probability results, reference findings, and resource checks](docs/logs/LOG-005.md)
 - [Controlled feature and ensemble-size ablations](docs/logs/LOG-006.md)
+- [Official LimiX-2 macro comparison](docs/logs/LOG-007.md)
+- [CPI release coverage, frozen protocol and current next steps](docs/logs/LOG-008.md)
 - [Connected-project data inventory](docs/DATA-SOURCES.md)
 - Original discussions: [markets](docs/chats/001-tabpfn-for-markets.md), [foundation models](docs/chats/002-explain-tabular-foundation-models.md)
 
@@ -23,6 +25,7 @@ engineering checks. No trading integration.
 - [Philadelphia Fed SPF and first-release macro archives](docs/references/philadelphia-fed-spf.md)
 - [Preseen / Knowledge Lab: questions, scenarios, and dependencies](docs/references/preseen-science-technology.md)
 - [Metaculus economy/business: examples, scoring, and access restrictions](docs/references/metaculus-economy-business.md)
+- [CPI dated nowcasts, settlement anomalies and cutoff quote coverage](docs/references/cpi-forecast-coverage.md)
 
 ## Reproduce the captured macro probability pilot
 
@@ -94,6 +97,32 @@ Peak Torch-reserved VRAM was 2.47 GiB; minimum sampled available system RAM was
 Metaculus registration does not grant unrestricted archives or AI/ML evaluation
 rights; its official guidance requires written permission. No Metaculus model
 benchmark, authenticated API call, or forecast submission was made.
+
+## Reproduce the captured CPI coverage audit
+
+With the cached, ignored source artifacts documented in
+[LOG-008](docs/logs/LOG-008.md):
+
+```sh
+.venv/bin/python scripts/cpi_vintage_audit.py
+.venv/bin/python scripts/cpi_bls_archive.py parse
+.venv/bin/python scripts/cpi_fraser_archive.py
+.venv/bin/python scripts/cpi_event_table.py --output data/research/cpi/events-repeat
+```
+
+The vintage audit and event join reject existing outputs. The archive parsers
+rebuild derived labels from hashed caches without refreshing sources. A clean
+checkout does not contain third-party raw data; source routes and representations
+are documented in LOG-008 and the CPI reference.
+
+Measured: 318 archived monthly prints across a 321-month grid; two shutdown
+months have no official monthly target, and September 2026 is unreleased.
+RTDSM First proxies match all 317 comparable prints; 61 Kalshi vendor values
+match official-target months, but its two shutdown values are excluded.
+155 dated Cleveland nowcasts join under the nominal cutoff convention.
+Original-snapshot/schedule assurance and strict quote-update ages remain unresolved.
+No CPI model scores or market-beating claim exist. The frozen protocol and ordered
+next actions are in the latest LOG.
 
 ## Reproduce the captured volatility pilot
 

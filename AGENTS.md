@@ -14,6 +14,10 @@ Original supplied discussions are in `docs/chats/`; their claims require verific
 - Keep detailed investigation logs in **`docs/logs/LOG-NNN.md`**, increasing numbers.
   Check the existing sequence before creating a log. Record hypotheses before scores,
   commands, sources, failures, results, limitations, and decisions that change the plan.
+- **The newest numbered LOG must always contain a clear `## Next steps` section.**
+  List the next executable actions in order, prerequisites/access limits, and the
+  evidence needed to advance. Update it before each checkpoint and handoff; a link
+  to the general roadmap is not a substitute. Distinguish completed work from plans.
 - Clearly distinguish proposed work, documented past results, freshly measured results,
   and inference. Never report a model score unless that model actually ran.
 - **Commit and push frequently at meaningful completed milestones.** Use explicit file

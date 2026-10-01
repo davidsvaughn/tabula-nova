@@ -49,11 +49,15 @@ env OMP_NUM_THREADS=4 MKL_NUM_THREADS=4 OPENBLAS_NUM_THREADS=4 \
 ```
 
 
-The actual run scored 84 next-quarter GDP-contraction events, with ten contractions.
-Direct SPF consensus won: Brier **0.09537**, versus **0.14480** for two-estimator
-TabPFN-3.5. This is a retrospective feasibility study with three frozen contexts,
-not an NBER recession model or a certified point-in-time backtest. LOG-005 records
-the protocol, other baselines, fold counts and limitations.
+The pilot scored 84 next-quarter GDP-contraction events, with ten contractions.
+The subsequent controlled matrix tested three feature sets with two/eight TabPFN
+estimators. Direct SPF consensus retained the lowest Brier/log loss (**0.09537 /
+0.32904**); the lowest TabPFN Brier was **0.13340** (means only, eight estimators).
+Removing respondent count did not fix the late-period false alarms. These are
+configuration-level results from an exploratory, already-seen cohort—not a general
+verdict on model architecture. See LOG-005/006 for all variants and limitations.
+The study uses three frozen contexts, not an NBER recession target or a certified
+point-in-time backtest.
 
 Metaculus registration does not grant unrestricted archives or AI/ML evaluation
 rights; its official guidance requires written permission. No Metaculus model

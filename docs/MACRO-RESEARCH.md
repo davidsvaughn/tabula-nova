@@ -6,7 +6,7 @@ Updated 2026-10-01. Supersedes the equity-heavy priority ordering in LOG-003. **
 
 - User-licensed standard TabPFN-3.5 runs locally on the laptop, for regression and classification, without an API key or cloud upload.
 - Frozen volatility comparison completed: ridge wins; TabPFN does not beat the strongest conventional baseline. [LOG-004](logs/LOG-004.md).
-- A genuinely macroeconomic probability experiment completed: 84 next-quarter GDP-contraction events, ten contractions; **direct SPF consensus beats every tested learned correction overall**. [LOG-005](logs/LOG-005.md).
+- A genuinely macroeconomic probability experiment completed: 84 next-quarter GDP-contraction events, ten contractions; **direct SPF consensus beats the tested learned corrections overall**. [LOG-005](logs/LOG-005.md). The subsequent six-configuration feature/ensemble matrix preserved that result; respondent-count deletion did not remove late-period errors. [LOG-006](logs/LOG-006.md). These are configuration-level, exploratory results, not an architecture-level verdict.
 - Public SPF probabilities, publication dates and first-release macro archives can be downloaded without FRED credentials. [Source reference](references/philadelphia-fed-spf.md).
 - Public Kalshi historical CPI market metadata and example candles were exercised; full matched release/price/feature panel remains unassembled. [Inventory](DATA-SOURCES.md).
 - Metaculus public question/criteria/history charts were inspected, but machine-readable archives and **written AI/ML use permission** were not obtained. Do not treat registration as that permission. [Access assessment](references/metaculus-economy-business.md).
@@ -27,9 +27,9 @@ Best near-term source of repeated, explicitly resolvable outcomes. The target is
 | Monetary policy | Exhaustive probabilities for decisions at a named meeting or target range at a named date | Official decisions and evidence; independently permission-checked contemporaneous consensus | Upper bound versus midpoint/effective rate; announcement versus end-of-day rule; unscheduled decisions |
 | International macro | Country-specific inflation/growth/labor distributions | Candidate official archives/surveys, not yet inventoried | Rebasings, units, calendars, source continuity and permitted reuse; country/time holdouts |
 
-**Immediate next experimental sequence (proposed, not completed):**
+**Experimental sequence and status:**
 
-1. Diagnose the frozen SPF result with prespecified means-only/drop-response-count ablations and an ordinary eight-estimator sensitivity. Preserve original scores. These use already seen evaluation outcomes and are exploratory, not a fresh confirmation cohort. A stable rolling-context experiment must be separately declared, not silently substituted for the seven-year frozen blocks.
+1. **Completed:** frozen SPF means-only/drop-response-count ablations crossed with two/eight estimators. Original scores and all variants preserved in LOG-006. Removing count did not fix the failure pattern; means-only and eight estimators improved some metrics but did not beat consensus. Stop selecting configurations on this already-seen cohort. A rolling-context experiment, if pursued, must be separately declared rather than silently replacing the frozen blocks.
 2. Build one complete inflation event table with first-print labels and as-of input/consensus coverage. Train a continuous-distribution model rather than one unrelated classifier per strike. Score all eligible releases, retaining missing-data/exclusion reasons. Use an earlier development period and freeze a later confirmation rule before comparing variants.
 3. Evaluate a small number of distributional/combination configurations: simple baseline, regularized model, boosted trees, local standard TabPFN. Compare TS3/wrapper only on the same eligible information; a wrapper that drops important covariates is a distinct restricted-information baseline.
 4. Add another family only after clocks, scoreability and sample counts are sound. A panel can improve diversity, but combining countries or target families requires explicit semantics and holdouts, not arbitrary row inflation.

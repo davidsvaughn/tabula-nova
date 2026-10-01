@@ -63,7 +63,7 @@ The Jev recipe compares a 44-example Jev context with a much larger TabPFN-Plus 
 ## Decisions
 
 1. Keep the working local standard 3.5 environment; no need for hosted authentication to continue.
-2. Treat two-estimator pilot scores as those configurations only, not the default eight-estimator benchmark. Any default/fast/Thinking sensitivity is a newly declared exploratory comparison, not a replacement for unfavorable results.
+2. Treat scores as configuration-specific. [LOG-006](../logs/LOG-006.md) now records the completed two/eight-estimator macro sensitivity across three feature sets; none beats consensus overall. Fast/Thinking remain untested. Exploratory variants do not replace original unfavorable results or provide an untouched confirmation cohort.
 3. Prioritize broad macro distributions and forecast combination. Public SPF and first-release archives provide an immediately exercised path beyond stock prices.
 4. Preserve conventional baselines and public consensus. Neither cookbook results nor vendor capability claims establish superiority on this project's tasks.
 5. Keep Metaculus permission separate: [its reference note](metaculus-economy-business.md) documents explicit AI/ML evaluation restrictions. A Prior Labs key grants no rights to third-party forecast archives.

@@ -52,3 +52,10 @@ The SPF file index includes real/nominal GDP and components, unemployment, payro
 Those targets/horizons are not interchangeable. Bin definitions, questionnaire changes, horizon alignment, respondent ID caveats and publication/label clocks need inspection before pooling. Some series begin much later: CPI forecasts begin 1981Q3, PCE 2007Q1 according to the FAQ. Missing early years are not zero outcomes.
 
 A useful next question is whether a model improves **a full macro distribution or a forecast combination**, conditional on survey disagreement and vintage-safe indicators, versus simple consensus and linear/shrunk combinations. More thresholds per quarter improve diagnostic coverage, not independent-event sample size. The completed first test and unfavorable aggregate TabPFN result are preserved in [LOG-005](../logs/LOG-005.md).
+
+The [completed feature/ensemble ablations](../logs/LOG-006.md) preserve that original
+result and test the administration-count concern directly. Removing respondent
+count did not fix late false alarms; they remain even with the five mean probability
+inputs only. Eight estimators modestly improve TabPFN within each feature set but
+do not beat consensus overall. This narrows a feature hypothesis, not the general
+question of foundation-model macro skill.

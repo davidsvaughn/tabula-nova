@@ -22,7 +22,6 @@ import pandas as pd
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import brier_score_loss, log_loss
-from tabpfn import TabPFNClassifier
 import torch
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -92,6 +91,8 @@ def score(events: list[dict]) -> dict:
 
 
 def main() -> None:
+    from tabpfn import TabPFNClassifier
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model-path", type=Path, required=True)
     parser.add_argument("--feature-set", choices=["all", "no-count", "means"], default="all")

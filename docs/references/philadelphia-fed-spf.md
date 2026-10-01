@@ -59,3 +59,9 @@ count did not fix late false alarms; they remain even with the five mean probabi
 inputs only. Eight estimators modestly improve TabPFN within each feature set but
 do not beat consensus overall. This narrows a feature hypothesis, not the general
 question of foundation-model macro skill.
+
+[LOG-007](../logs/LOG-007.md) adds an actual LimiX-2 comparison on the same 84
+events: all 32 official pipelines, with one query per call because its preprocessing
+fits on combined training/query features. LimiX Brier/log loss 0.170312/0.526035
+also trails consensus overall. This confirms runtime/data feasibility for both
+models, not general macro skill or a causal explanation of late-period errors.

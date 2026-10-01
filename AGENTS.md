@@ -56,6 +56,16 @@ Original supplied discussions are in `docs/chats/`; their claims require verific
   `/home/david/Downloads/tabpfn`. Explicit `model_path` inference works without a key.
   Authenticated downloads and hosted inference use `TABPFN_TOKEN`; the user stores
   their key as `TABPFN_API_KEY` in `.env`. Map it in process memory only when needed.
+- User-supplied LimiX-2 weights are at `/home/david/Downloads/limix2/LimiX-2.ckpt`;
+  no second project copy exists. Do not delete/move them casually. SHA256 was matched
+  to the official Hugging Face blob before pickle loading; see LOG-007.
+- LimiX uses its own Python 3.12 environment and pinned source under ignored
+  `data/research/limix-runtime/`; do not replace TabPFN's working environment.
+  Preserve/apply `patches/limix-local-cache.patch` to avoid the upstream hardcoded
+  `/mnt/public` cache path. Attribution: Built with StableAI LimiX.
+- LimiX v2 classification preprocesses concatenated training/query features.
+  For historical macro forecasts, pass one contemporaneous query per call, not an
+  entire future evaluation block. Do not silently accept a resource-reduced ensemble.
 - Local verified GPU stack: RTX 3080 Laptop 16GB, Torch `2.10.0+cu128`. An unconstrained
   install selected CUDA 13 Torch and failed driver initialization. Prefer a compatible
   pinned environment, never a system driver change just to run a pilot.

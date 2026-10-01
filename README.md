@@ -59,6 +59,38 @@ verdict on model architecture. See LOG-005/006 for all variants and limitations.
 The study uses three frozen contexts, not an NBER recession target or a certified
 point-in-time backtest.
 
+### LimiX-2 comparison
+
+The user's `/home/david/Downloads/limix2/LimiX-2.ckpt` is the verified official
+400M-parameter LimiX-2 checkpoint, not LimiX-2M. It is used in place: **keep that
+directory; there is no second weight copy in this project**.
+
+[LOG-007](docs/logs/LOG-007.md) records the separate Python 3.12 environment,
+official source revision, license boundaries, cache-path fix, and frozen protocol.
+With that setup:
+
+```sh
+env PYTHONHASHSEED=17 OMP_NUM_THREADS=4 MKL_NUM_THREADS=4 OPENBLAS_NUM_THREADS=4 \
+  data/research/limix-runtime/venv/bin/python scripts/limix_spf_pilot.py \
+  --model-path /home/david/Downloads/limix2/LimiX-2.ckpt
+```
+
+The command requires the frozen SPF inputs and original/full-feature eight-estimator
+TabPFN result artifacts. It runs all 32 official classification pipelines, using one
+query quarter per call to avoid future-query preprocessing leakage, and writes a
+separate result without overwriting prior work. It checks shared-laptop memory
+headroom before each query and rejects resource-altered ensembles.
+
+Built with StableAI LimiX. Non-commercial capability research only; no commercial
+rights, hosted service or endorsement is implied.
+
+Completed: all 84 macro events with the official 32-pipeline ensemble. LimiX-2
+scored **Brier 0.17031 / log loss 0.52604**, versus full-feature TabPFN-eight
+**0.14069 / 0.45922** and direct SPF consensus **0.09537 / 0.32904**.
+The same sparse-label, frozen-context and exploratory-cohort caveats apply.
+Peak Torch-reserved VRAM was 2.47 GiB; minimum sampled available system RAM was
+8.73 GiB. See LOG-007 for complete per-block results and reproducibility details.
+
 Metaculus registration does not grant unrestricted archives or AI/ML evaluation
 rights; its official guidance requires written permission. No Metaculus model
 benchmark, authenticated API call, or forecast submission was made.
@@ -95,7 +127,8 @@ no API key when using the existing checkpoint:
 ```
 
 This command successfully ran TabPFN-3.5 on all three folds. Ridge remained the
-strongest baseline; see LOG-004 for the complete comparison. LimiX has not been run.
+strongest baseline; see LOG-004 for the complete comparison. LimiX was not part of
+this volatility pilot; its separate macro comparison is documented above.
 
 For authenticated downloads or hosted Plus/Thinking, Prior Labs documents
 `TABPFN_TOKEN`. The user's key is stored as `TABPFN_API_KEY`; map it to the SDK name

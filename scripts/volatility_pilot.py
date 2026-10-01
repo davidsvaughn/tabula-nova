@@ -36,7 +36,15 @@ FEATURES = ["rv5", "rv22", "ret1", "ret5", "range", "volume_ratio"]
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--baselines-only", action="store_true", help="Explicitly omit TabPFN; never claim a model comparison")
+    parser.add_argument("--model-path", type=Path, help="Existing, licensed TabPFN-3.5 checkpoint; no download needed")
+    parser.add_argument("--output", type=Path, default=OUT, help="Result artifact path")
     args = parser.parse_args()
+    if args.model_path is not None and not args.model_path.is_file():
+        parser.error("--model-path must name an existing checkpoint file")
+    checkpoint = None
+    if not args.baselines_only and args.model_path is not None:
+        with args.model_path.open("rb") as weights:
+            checkpoint = {"path": str(args.model_path.resolve()), "sha256": hashlib.file_digest(weights, "sha256").hexdigest()}
     payload = json.loads(DATA.read_text())
     bars = pd.DataFrame(payload["candles"]).sort_values("datetime").reset_index(drop=True)
     bars["date"] = pd.to_datetime(bars["datetime"], unit="ms", utc=True).dt.tz_convert("America/New_York").dt.strftime("%Y-%m-%d")
@@ -79,7 +87,7 @@ def main() -> None:
             "hist_gradient_boosting_log_variance": HistGradientBoostingRegressor(max_iter=100, max_leaf_nodes=7, l2_regularization=1.0, early_stopping=False, random_state=17),
         }
         if not args.baselines_only:
-            models["tabpfn_3_5_log_variance"] = TabPFNRegressor(device="cuda", n_estimators=2, random_state=17)
+            models["tabpfn_3_5_log_variance"] = TabPFNRegressor(device="cuda", n_estimators=2, random_state=17, model_path=str(args.model_path) if args.model_path else "auto")
         for name, model in models.items():
             t0 = time.perf_counter()
             model.fit(x, y)
@@ -105,6 +113,7 @@ def main() -> None:
         "purpose": "Exploratory local inference/data feasibility, not evidence of trading edge or a CPI experiment",
         "execution_mode": "baselines_only" if args.baselines_only else "baselines_and_tabpfn",
         "input_sha256": hashlib.sha256(DATA.read_bytes()).hexdigest(),
+        "checkpoint": checkpoint,
         "config": {"horizon_sessions": HORIZON, "features": FEATURES, "train_rows": 500, "folds": 3, "test_stride": 5, "last_completed_session": LAST_COMPLETED_SESSION, "seed": 17, "tabpfn_estimators": 2, "target": "252 times mean next-five close-to-close squared log returns", "learned_target_transform": "natural log variance; exponentiated point prediction without mean-bias correction"},
         "versions": {p: importlib.metadata.version(p) for p in ["tabpfn", "torch", "numpy", "pandas", "scikit-learn"]},
         "device": "CPU (baselines only)" if args.baselines_only else torch.cuda.get_device_name(),
@@ -115,8 +124,9 @@ def main() -> None:
         "events": rows,
         "limitations": ["One ETF, 60 nonoverlapping outcomes; no confirmatory significance claim", "Historical bar adjustments/as-of revisions unvalidated", "Closing bars assumed available just after close, not executable at that close", "Reduced two-estimator TabPFN configuration, not leaderboard defaults", "No hyperparameter search, calibration, GARCH benchmark or final untouched holdout", "QLIKE evaluates conditional variance; log-trained predictors need not estimate its optimal conditional mean", "No economic features, market probabilities, LimiX predictions or trading-cost assessment"],
     }
-    OUT.write_text(json.dumps(result, indent=2) + "\n")
-    print(json.dumps({"n_events": len(rows), "scores": result["scores"], "output": str(OUT)}, indent=2))
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(result, indent=2) + "\n")
+    print(json.dumps({"n_events": len(rows), "scores": result["scores"], "output": str(args.output)}, indent=2))
 
 
 if __name__ == "__main__":

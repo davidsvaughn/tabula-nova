@@ -2,9 +2,11 @@
 
 ## Purpose and current state
 
-Investigate TabPFN-3.5, LimiX-2, and strong conventional baselines for financial
-forecasting and economic probabilities. This is a research repository, not a trading
-system. Start with `README.md`, `docs/DATA-SOURCES.md`, and the latest numbered logs.
+Investigate TabPFN-3.5, LimiX-2, and strong conventional baselines for **broad
+macroeconomic forecasting and superforecasting**: growth, labor, inflation, policy,
+productivity, and conditional scenarios. Stock/volatility prediction is a supporting
+engineering check, not the organizing goal. This is research, not a trading system.
+Start with `README.md`, `docs/DATA-SOURCES.md`, and the latest numbered logs.
 Original supplied discussions are in `docs/chats/`; their claims require verification.
 
 ## Logs and checkpoints
@@ -47,8 +49,10 @@ Original supplied discussions are in `docs/chats/`; their claims require verific
   LimiX weights/outputs have non-commercial restrictions. Do not accept legal terms or
   bypass access gates on the user's behalf, and do not assume research-to-trading use is
   permitted. LimiX specifically restricts commercially motivated research.
-- TabPFN 9.0.0 local downloads require explicit Prior Labs license authentication and
-  `TABPFN_TOKEN`; an HF token and ungated HF metadata do not satisfy this gate.
+- The user accepted the TabPFN license and supplied local weights under
+  `/home/david/Downloads/tabpfn`. Explicit `model_path` inference works without a key.
+  Authenticated downloads and hosted inference use `TABPFN_TOKEN`; the user stores
+  their key as `TABPFN_API_KEY` in `.env`. Map it in process memory only when needed.
 - Local verified GPU stack: RTX 3080 Laptop 16GB, Torch `2.10.0+cu128`. An unconstrained
   install selected CUDA 13 Torch and failed driver initialization. Prefer a compatible
   pinned environment, never a system driver change just to run a pilot.

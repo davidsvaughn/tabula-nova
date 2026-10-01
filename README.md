@@ -1,13 +1,16 @@
 # tabula-nova
 
-Research into tabular foundation models for financial forecasting and economic probabilities.
-No trading integration.
+Research into tabular foundation models for **macroeconomic forecasting and
+superforecasting**: growth, labor, inflation, policy, productivity, forecast
+combination, and conditional scenarios. Equity/volatility pilots are supporting
+engineering checks. No trading integration.
 
 ## Investigation
 
 - [Initial hypotheses and plan](docs/logs/LOG-001.md)
 - [Executed probes, failures, and baseline results](docs/logs/LOG-002.md)
 - [Revised experiment priorities](docs/logs/LOG-003.md)
+- [Authorized local model results and macro-first continuation](docs/logs/LOG-004.md)
 - [Connected-project data inventory](docs/DATA-SOURCES.md)
 - Original discussions: [markets](docs/chats/001-tabpfn-for-markets.md), [foundation models](docs/chats/002-explain-tabular-foundation-models.md)
 
@@ -33,17 +36,22 @@ driver initialization. The script freezes the last completed session to
 2026-09-30 and reports the input hash; it is a reproducible historical pilot,
 not a rolling live forecaster.
 
-For TabPFN, first review/accept the applicable license at
-https://ux.priorlabs.ai and export `TABPFN_TOKEN` in the process environment.
-The script does not load `.env` automatically. Then run:
+The user has accepted the license and supplied local weights. Local inference needs
+no API key when using the existing checkpoint:
 
 ```sh
-.venv/bin/python scripts/volatility_pilot.py
+.venv/bin/python scripts/volatility_pilot.py \
+  --model-path /home/david/Downloads/tabpfn/tabpfn-v3.5-20260909.safetensors \
+  --output data/research/volatility_pilot_tabpfn35.json
 ```
 
-That command attempts the actual TabPFN-3.5 regressor; it does not silently
-substitute another model. The initial attempt reached the license gate and
-produced **no TabPFN predictions**. LimiX has not been run.
+This command successfully ran TabPFN-3.5 on all three folds. Ridge remained the
+strongest baseline; see LOG-004 for the complete comparison. LimiX has not been run.
+
+For authenticated downloads or hosted Plus/Thinking, Prior Labs documents
+`TABPFN_TOKEN`. The user's key is stored as `TABPFN_API_KEY`; map it to the SDK name
+in process memory if needed. This script does not load `.env` automatically.
+The public documentation index is https://docs.priorlabs.ai/llms.txt.
 
 The pilot is one ETF, three chronological blocks, and 60 nonoverlapping
 five-session outcomes. Its baseline result is not evidence of a trading edge.

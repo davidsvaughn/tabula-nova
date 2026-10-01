@@ -125,9 +125,39 @@ months have no official monthly target, and September 2026 is unreleased.
 RTDSM First proxies match all 317 comparable prints; 61 Kalshi vendor values
 match official-target months, but its two shutdown values are excluded.
 155 dated Cleveland nowcasts join under the nominal cutoff convention.
-Original-snapshot/schedule assurance and strict quote-update ages remain unresolved.
-No CPI model scores or market-beating claim exist. The frozen protocol and ordered
-next actions are in the latest LOG.
+The frozen CPI runner has scored the three conventional baselines. Ridge narrowly
+passes the declared uncertainty check against the historical mean; this is not
+foundation-model or market-beating evidence. Full native-model comparisons are in
+progress. [LOG-009](docs/logs/LOG-009.md) starts with a plain-English assessment.
+
+### CPI prediction and uncertainty entrypoints
+
+With the source caches and publication evidence documented in LOG-009:
+
+```sh
+.venv/bin/python scripts/cpi_publication_audit.py \
+  --output data/research/cpi/publication/audit-repeat
+.venv/bin/python scripts/cpi_distribution_pilot.py --model mean --smoke \
+  --output data/research/cpi/distribution-smoke-repeat.json
+.venv/bin/python scripts/cpi_distribution_pilot.py --model ridge \
+  --publication-audit data/research/cpi/publication/audit-repeat \
+  --output data/research/cpi/cpi-ridge-repeat.json
+```
+
+The smoke makes 60 real warmup predictions and one subsequent forecast, but does
+not expose its evaluation outcome or score. Full inference refuses a failed
+publication gate, altered source snapshot or changed frozen cohort. Every output
+requires a fresh path. Models are `mean`, `ridge`, `hgb`, `tabpfn`, `limix`.
+LimiX requires the isolated Python 3.12 runtime above; official regression uses
+**eight pipelines**, not the classification configuration's 32. Original model
+weights remain in Downloads and are verified before loading.
+
+`scripts/cpi_compare.py --results ... --output ...` checks matched completed
+artifacts and calculates paired 12-calendar-month block uncertainty; `--require-all`
+requires all five declared models. Missing months stay calendar gaps.
+The available evidence supports a historical archival comparison under disclosed
+assumptions, **not independent first-publication/PIT certification**. Nowcast/
+market timing and genuine quote-update age remain separately unresolved.
 
 ## Reproduce the captured volatility pilot
 

@@ -1,7 +1,7 @@
 """Retrospective SPF forecast-combination feasibility; not an NBER recession model.
 
 Inputs: local public Philadelphia Fed workbooks and release-date file documented
-in LOG-004 and data/research/spf/sources.json. Protocol frozen before scoring.
+in LOG-004 and data/research/spf/sources.json. Ablations follow LOG-006.
 """
 from __future__ import annotations
 
@@ -94,10 +94,24 @@ def score(events: list[dict]) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model-path", type=Path, required=True)
-    parser.add_argument("--output", type=Path, default=INPUT / "macro_spf_pilot.json")
+    parser.add_argument("--feature-set", choices=["all", "no-count", "means"], default="all")
+    parser.add_argument("--estimators", type=int, choices=[2, 8], default=2)
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     if not args.model_path.is_file():
         parser.error("--model-path must be an existing licensed checkpoint")
+    original = args.feature_set == "all" and args.estimators == 2
+    output = args.output or INPUT / (
+        "macro_spf_pilot.json" if original
+        else f"macro_spf_{args.feature_set}_e{args.estimators}.json"
+    )
+    if output.exists():
+        parser.error(f"Refusing to overwrite an existing research artifact: {output}; choose a new --output")
+    features = {
+        "all": FEATURES,
+        "no-count": [column for column in FEATURES if column != "respondents"],
+        "means": MEANS,
+    }[args.feature_set]
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA required for this pinned local pilot")
     frame, coverage = load_events()
@@ -125,13 +139,13 @@ def main() -> None:
         probabilities["logistic_calibration"] = calibration.predict_proba(logits(test["RECESS2"]))[:, 1]
         models = {
             "hist_gradient_boosting": HistGradientBoostingClassifier(max_iter=100, max_leaf_nodes=3, min_samples_leaf=10, l2_regularization=1, early_stopping=False, random_state=17),
-            "tabpfn_3_5": TabPFNClassifier(model_path=str(args.model_path), device="cuda", n_estimators=2, random_state=17),
+            "tabpfn_3_5": TabPFNClassifier(model_path=str(args.model_path), device="cuda", n_estimators=args.estimators, random_state=17),
         }
         for name, model in models.items():
             begin = time.perf_counter()
-            model.fit(train[FEATURES], y)
+            model.fit(train[features], y)
             positive = list(model.classes_).index(1)
-            probabilities[name] = model.predict_proba(test[FEATURES])[:, positive]
+            probabilities[name] = model.predict_proba(test[features])[:, positive]
             timings.append({"fold": fold, "model": name, "seconds": time.perf_counter() - begin})
         for name, p in probabilities.items():
             assert np.isfinite(p).all() and ((p >= 0) & (p <= 1)).all(), name
@@ -146,8 +160,9 @@ def main() -> None:
     inputs = {name: hashlib.sha256((INPUT / name).read_bytes()).hexdigest() for name in ["mean_recess.xlsx", "individual_recess.xlsx", "first_gdp.xlsx", "release_dates.txt"]}
     result = {
         "task": "Probability of negative next-quarter real GDP growth under RTDSM First vintage-derived growth; NOT NBER recession",
-        "protocol": "LOG-004; retrospective feasibility, three frozen 7-year blocks and four-quarter target-period embargo",
-        "features": FEATURES, "seed": 17, "tabpfn_estimators": 2,
+        "protocol": "LOG-004" if original else "LOG-006; post-result exploratory ablation; same LOG-004 cohort and folds",
+        "features": features, "feature_set": args.feature_set, "seed": 17, "tabpfn_estimators": args.estimators,
+        "cpu_threads": {name: os.environ.get(name) for name in ["OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS"]},
         "checkpoint_sha256": checkpoint_hash, "input_sha256": inputs,
         "versions": {p: importlib.metadata.version(p) for p in ["tabpfn", "torch", "pandas", "numpy", "scikit-learn", "openpyxl"]},
         "coverage": coverage, "folds": folds, "n_events": len(events), "n_positive": sum(e["outcome"] for e in events),
@@ -155,9 +170,9 @@ def main() -> None:
         "timings": timings, "events": events,
         "limitations": ["SPF predicts contraction but does not prescribe this specific RTDSM outcome vintage", "Latest historical archives may contain subsequent corrections", "Conservative target-period embargo instead of exact release-timestamp audit", "Few contractions and serially correlated quarters; no significance claim", "No untouched confirmation cohort, hyperparameter search or past-only post-hoc calibration", "Three frozen-context models, not continuously retrained production forecasts", "No claim that a marginal probability forecast identifies policy effects"],
     }
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(result, indent=2) + "\n")
-    print(json.dumps({"n_events": len(events), "n_positive": result["n_positive"], "scores": result["scores"], "output": str(args.output)}, indent=2))
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(result, indent=2) + "\n")
+    print(json.dumps({"n_events": len(events), "n_positive": result["n_positive"], "scores": result["scores"], "output": str(output)}, indent=2))
 
 
 if __name__ == "__main__":

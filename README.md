@@ -13,6 +13,7 @@ engineering checks. No trading integration.
 - [Revised experiment priorities](docs/logs/LOG-003.md)
 - [Authorized local model results and macro-first continuation](docs/logs/LOG-004.md)
 - [GDP-probability results, reference findings, and resource checks](docs/logs/LOG-005.md)
+- [Controlled feature and ensemble-size ablations](docs/logs/LOG-006.md)
 - [Connected-project data inventory](docs/DATA-SOURCES.md)
 - Original discussions: [markets](docs/chats/001-tabpfn-for-markets.md), [foundation models](docs/chats/002-explain-tabular-foundation-models.md)
 
@@ -36,6 +37,17 @@ uv pip install --python .venv/bin/python 'openpyxl==3.1.5'
 Requires four frozen public files under ignored `data/research/spf/`; the
 [SPF reference](docs/references/philadelphia-fed-spf.md) gives exact downloads,
 local filenames and hashes for a clean checkout. The script does not refresh inputs.
+Existing result artifacts are never overwritten; choose a fresh `--output` for a
+repeat run. Controlled ablations use `--feature-set all|no-count|means` and
+`--estimators 2|8`; their default filenames identify the configuration:
+
+```sh
+env OMP_NUM_THREADS=4 MKL_NUM_THREADS=4 OPENBLAS_NUM_THREADS=4 \
+  .venv/bin/python scripts/macro_spf_pilot.py \
+  --model-path /home/david/Downloads/tabpfn/tabpfn-v3.5-20260909.safetensors \
+  --feature-set no-count --estimators 8
+```
+
 
 The actual run scored 84 next-quarter GDP-contraction events, with ten contractions.
 Direct SPF consensus won: Brier **0.09537**, versus **0.14480** for two-estimator

@@ -155,9 +155,11 @@ def predict(name: str, model: object, x: np.ndarray, y: np.ndarray, query: np.nd
     else:
         model.fit(x, y)
         raw = np.asarray(model.predict(query))
-    if raw.shape != (1,) or not np.isfinite(raw).all():
+    # Native LimiX bucket decoding returns a scalar for a single query, despite
+    # its docstring describing a one-dimensional array. Preserve observed shape.
+    if raw.shape not in ((), (1,)) or not np.isfinite(raw).all():
         raise ValueError(f"Unexpected native regression output: {raw.shape}")
-    return float(raw[0]), dict(available, elapsed_seconds=time.perf_counter() - started, output_shape=list(raw.shape))
+    return float(raw.item()), dict(available, elapsed_seconds=time.perf_counter() - started, output_shape=list(raw.shape))
 
 
 def resources(gpu: bool) -> dict:

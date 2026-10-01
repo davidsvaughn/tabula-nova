@@ -42,6 +42,9 @@ Original supplied discussions are in `docs/chats/`; their claims require verific
   another token file here. Normal SDK access-token renewal may update the existing file.
 - The DB/SA-ingest runtime moved to AlphaPilot; alpha-claw crons and prediction-market
   collectors were stood down. Existing code does not imply a currently running feed.
+- Metaculus public reading is useful, but its current API guidance requires prior
+  written permission for AI/ML training/evaluation/development. Registration or an
+  API token does not grant unrestricted historical data rights. See its reference note.
 
 ## Model access and runtime
 
@@ -61,6 +64,13 @@ Original supplied discussions are in `docs/chats/`; their claims require verific
 - `scripts/volatility_pilot.py` is a frozen historical pilot, not a live forecasting CLI.
   `--baselines-only` explicitly omits TabPFN; default execution never silently falls back.
   It reads process environment, not `.env` automatically.
+- This laptop is shared with other agents. Check total CPU/load, available RAM,
+  active swap-in/out, free VRAM, GPU temperature/utilization, and disk before heavier
+  runs and between experiments (`uptime`, `free -h`, `vmstat`, `nvidia-smi`, `df`).
+  Continue useful work; avoid overlapping our own GPU fits or loading multiple large
+  checkpoints unnecessarily. Pause new allocations if headroom collapses or sustained
+  swapping/thermal pressure appears. Never kill other agents' processes or alter
+  system/driver settings. High occupied swap alone is not evidence of active thrashing.
 
 ## Research invariants
 

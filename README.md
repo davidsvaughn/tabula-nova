@@ -7,12 +7,45 @@ engineering checks. No trading integration.
 
 ## Investigation
 
+- [Current macro/superforecasting research plan](docs/MACRO-RESEARCH.md)
 - [Initial hypotheses and plan](docs/logs/LOG-001.md)
 - [Executed probes, failures, and baseline results](docs/logs/LOG-002.md)
 - [Revised experiment priorities](docs/logs/LOG-003.md)
 - [Authorized local model results and macro-first continuation](docs/logs/LOG-004.md)
+- [GDP-probability results, reference findings, and resource checks](docs/logs/LOG-005.md)
 - [Connected-project data inventory](docs/DATA-SOURCES.md)
 - Original discussions: [markets](docs/chats/001-tabpfn-for-markets.md), [foundation models](docs/chats/002-explain-tabular-foundation-models.md)
+
+### Source references
+
+- [Prior Labs cookbook, agent index, and model-access guidance](docs/references/priorlabs-cookbook.md)
+- [Philadelphia Fed SPF and first-release macro archives](docs/references/philadelphia-fed-spf.md)
+- [Preseen / Knowledge Lab: questions, scenarios, and dependencies](docs/references/preseen-science-technology.md)
+- [Metaculus economy/business: examples, scoring, and access restrictions](docs/references/metaculus-economy-business.md)
+
+## Reproduce the captured macro probability pilot
+
+Using the verified environment below, install the spreadsheet reader and run:
+
+```sh
+uv pip install --python .venv/bin/python 'openpyxl==3.1.5'
+.venv/bin/python scripts/macro_spf_pilot.py \
+  --model-path /home/david/Downloads/tabpfn/tabpfn-v3.5-20260909.safetensors
+```
+
+Requires four frozen public files under ignored `data/research/spf/`; the
+[SPF reference](docs/references/philadelphia-fed-spf.md) gives exact downloads,
+local filenames and hashes for a clean checkout. The script does not refresh inputs.
+
+The actual run scored 84 next-quarter GDP-contraction events, with ten contractions.
+Direct SPF consensus won: Brier **0.09537**, versus **0.14480** for two-estimator
+TabPFN-3.5. This is a retrospective feasibility study with three frozen contexts,
+not an NBER recession model or a certified point-in-time backtest. LOG-005 records
+the protocol, other baselines, fold counts and limitations.
+
+Metaculus registration does not grant unrestricted archives or AI/ML evaluation
+rights; its official guidance requires written permission. No Metaculus model
+benchmark, authenticated API call, or forecast submission was made.
 
 ## Reproduce the captured volatility pilot
 

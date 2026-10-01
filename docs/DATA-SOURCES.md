@@ -1,4 +1,4 @@
-# Financial data source inventory
+# Macroeconomic, forecasting, and financial data inventory
 
 Audited 2026-10-01. Project roots below are under `/home/david/code/davidsvaughn/cedar/`. **Implemented** means code exists, not that a subscription is currently live. **Archived** means reusable historical material exists or is documented. Freshly exercised checks are explicitly marked; historical counts are not presented as fresh database queries. No account/order endpoints were called.
 
@@ -94,8 +94,30 @@ Older capability notes say roughly 10 trading days for minute history; a later J
 - [ALFRED/FRED real-time API](https://fred.stlouisfed.org/docs/api/fred/realtime_period.html): vintage macro features; requires release-clock validation as well as vintage dates. No FRED credential found in tabula-nova `.env`; no archive client found in connected projects.
 - [Cleveland Fed nowcasts](https://www.clevelandfed.org/indicators-and-data/inflation-nowcasting): daily approximately 10am ET updates, historical chart sequences and first-release comparison documented. Historical export and timestamp reproducibility not yet exercised. The October 2025 missing CPI handling requires an explicit missing-label policy.
 - [Kalshi historical API](https://docs.kalshi.com/getting_started/historical_data): newly verified route to older CPI markets/candles, independent of JevTrader's text-only archive. Public requests do not need the user's private key.
-- Potential later candidates, **not claimed available/probed**: Philadelphia Fed SPF for a separately defined quarterly target; EIA energy releases; NOAA/NWS forecast archives for recurring weather contracts. Do not substitute quarterly SPF for monthly pre-release CPI consensus.
+- [Philadelphia Fed SPF](https://www.philadelphiafed.org/surveys-and-data/data-files):
+  now freshly exercised, not merely a candidate. Downloaded 9,280 individual RECESS
+  rows across 232 quarters, means, publication dates, and [RTDSM first GDP releases](https://www.philadelphiafed.org/surveys-and-data/real-time-data-research/first-second-third).
+  Files and SHA256 provenance are under ignored `data/research/spf/`; LOG-004/005
+  document a completed 84-event macro probability comparison. RECESS2 is next-quarter
+  negative GDP growth, not an NBER recession. Missing first-release values remain
+  missing; vintage-derived growth is not automatically an exact rounded release print.
+- [Metaculus economy/business](references/metaculus-economy-business.md): public question
+  criteria and historical charts verified in Chromium. Authenticated machine-readable
+  histories were not obtained. Explicit written AI/ML evaluation permission and any
+  archive entitlement are separate prerequisites; do not bulk scrape around them.
+- [Preseen / Knowledge Lab](references/preseen-science-technology.md): question/dependency
+  design and hybrid forecasting ideas, not a downloaded macro dataset or demonstrated
+  causal model. Third-by-score tournament result corroborated; integration mostly proposed.
+- Potential later candidates, **not claimed available/probed**: EIA energy releases,
+  NOAA/NWS forecast archives, and broader international survey archives. Do not substitute
+  quarterly SPF probabilities for monthly pre-release CPI consensus.
 
 ## Credential names used or relevant
 
-`SCHWAB_APP_KEY`, `SCHWAB_APP_SECRET`, `SCHWAB_TOKENS_FILE`; paper-only `ALPACA_API_KEY_1`/`ALPACA_SECRET_KEY_1` and slot 3 equivalents; `FINNHUB_API_KEY`; `KALSHI_API_KEY_ID`/`KALSHI_PRIVATE_KEY_FILE` (not needed for exercised public requests); `HF_READ_TOKEN`; **missing for model access:** `TABPFN_TOKEN` after explicit Prior Labs license acceptance. No values belong in this inventory.
+`SCHWAB_APP_KEY`, `SCHWAB_APP_SECRET`, `SCHWAB_TOKENS_FILE`; paper-only
+`ALPACA_API_KEY_1`/`ALPACA_SECRET_KEY_1` and slot 3 equivalents; `FINNHUB_API_KEY`;
+`KALSHI_API_KEY_ID`/`KALSHI_PRIVATE_KEY_FILE` (not needed for exercised public requests);
+`HF_READ_TOKEN`; `TABPFN_API_KEY` (user supplied after license acceptance). Prior Labs'
+quickstart uses `TABPFN_TOKEN`; its Jev cookbook also explicitly accepts `TABPFN_API_KEY`
+via `set_access_token`. Local inference with the downloaded checkpoint needs neither.
+No FRED credential was found in the initial inspection. No values belong in this inventory.

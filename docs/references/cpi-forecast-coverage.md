@@ -123,7 +123,31 @@ Ignored local root: `data/research/cpi/forecasts/`.
 - Monthly Cleveland raw JSON SHA256: `ce875bad6db100512dbcd629c50bed0e66d2bdffb778dd80e5c5bc026fe66f2b`.
 - Live Kalshi raw JSON SHA256: `dce2251d87ee571693ded3a07423142de0bb766ddab0dff9c1bfa2f3d323d841`.
 
+### Deterministic offline reproduction
+
+From the repository root, reproduce only the two consumed integration inputs with the standard-library producer:
+
+```sh
+python scripts/cpi_forecast_derive.py \
+  --input-dir data/research/cpi/forecasts \
+  --historical-probe data/research/kalshi_cpi_probe.json \
+  --output data/research/cpi/forecasts-reproduced
+```
+
+The output directory must not exist. The producer verifies all three raw source SHA256 values and byte counts against **the original** `data/research/cpi/forecasts/provenance.json` before parsing any response. It reads exactly:
+
+| Cached input | Observed acquisition URL / route |
+|---|---|
+| `data/research/cpi/forecasts/cleveland/nowcast_month.json` | `https://www.clevelandfed.org/-/media/files/webcharts/inflationnowcasting/nowcast_month.json?sc_lang=en` |
+| `data/research/cpi/forecasts/kalshi/live_markets.json` | `https://api.elections.kalshi.com/trade-api/v2/markets?series_ticker=KXCPI&limit=1000` |
+| `data/research/kalshi_cpi_probe.json` | Recorded route `/trade-api/v2/historical/markets?series_ticker=KXCPI&limit=1000`; **original host/URL unknown** |
+
+The fresh output contains `cleveland/forecasts.csv` and `candidate_labels.jsonl` with the consumed schemas, plus `cleveland/coverage.json` and `coverage_summary.json` with chart/event counts, rule anomalies, original source metadata/hashes, the original provenance hash, and output hashes. It does not rewrite the original inputs or original coverage. Values and raw date labels are preserved; only `CPI Inflation` is selected. Event-marker categories are discarded, category/series and tooltip/date alignment and duplicate keys are checked, and nearest-year date ties are errors. Event outcomes require exact decimal agreement across all strikes; conflicts are errors, never averages. The October/November 2025 vendor `0.2` values remain explicitly missing-official candidates, all candidates remain ineligible as official first prints, and rule placeholders/month mismatches remain visible rather than being repaired from titles.
+
+**Clean-checkout limitation:** these source caches and original acquisition provenance are ignored and **not in git**. Exact reproduction requires obtaining the original historical snapshot files and their original provenance from the research cache under applicable source terms. Refetching today's mutable URLs does not recreate the 2026-10-01 snapshots and must not be passed off as the original acquisition; changed bytes fail the original hash checks. For a separate new acquisition, Cleveland's observed URL above and Kalshi's live URL above are public routes, subject to their access/attribution/data-use terms. The currently documented historical fetch URL is `https://api.elections.kalshi.com/trade-api/v2/historical/markets?series_ticker=KXCPI&limit=1000`, but it is **not** the observed URL of the reused probe. A new historical listing also cannot recreate the original probe's response wrapper/retrieval clock or overcome the moving tier boundary. Acquire new snapshots with honest new provenance, exhausted pagination, and applicable permission; stop on an access denial rather than retrying or bypassing. The producer itself performs no network requests, and it adds no PIT, publication-clock, licensing, model, or scoring certification.
+
 Acquisition and parsing were actually executed; continuous candidate-month coverage, unique forecast keys, date alignment, numeric within-event agreement, and exclusion of later candles were checked. No unit/build/model run was needed for this investigation. No browser tabs were opened. Public access is not itself a grant of unrestricted Kalshi data redistribution or model-training rights; this audit makes no such licensing determination and sought no additional permission.
+
 Parent integration subsequently acquired all missing original-release documents
 from FRASER and parsed **318 archived printed monthly targets**. RTDSM First matches
 317 comparable prints, and all **61 non-shutdown Kalshi vendor values** match those
@@ -131,7 +155,6 @@ archived prints. Nominal-date Cleveland overlap is **155**. The source-snapshot,
 schedule, posting-time and quote-update-age limitations remain; numeric agreement
 does not certify every archived byte as an original publication snapshot.
 See [LOG-008](../logs/LOG-008.md) for event-table evidence and the frozen protocol.
-
 
 **Sufficient now:** public source acquisition, a dated Cleveland point-forecast candidate history, continuous vendor outcome candidates for 63 recent months, and evidence that some actual cutoff candles are retrievable. **Not sufficient yet:** a strict point-in-time scored comparison or a claim to beat monthly consensus.
 

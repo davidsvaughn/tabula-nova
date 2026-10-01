@@ -105,16 +105,20 @@ With the cached, ignored source artifacts documented in
 [LOG-008](docs/logs/LOG-008.md):
 
 ```sh
-.venv/bin/python scripts/cpi_vintage_audit.py
+.venv/bin/python scripts/cpi_vintage_audit.py --output data/research/cpi/rtdsm/vintage_audit-repeat.json
 .venv/bin/python scripts/cpi_bls_archive.py parse
 .venv/bin/python scripts/cpi_fraser_archive.py
+.venv/bin/python scripts/cpi_forecast_derive.py --output data/research/cpi/forecasts-repeat
 .venv/bin/python scripts/cpi_event_table.py --output data/research/cpi/events-repeat
 ```
 
-The vintage audit and event join reject existing outputs. The archive parsers
-rebuild derived labels from hashed caches without refreshing sources. A clean
-checkout does not contain third-party raw data; source routes and representations
-are documented in LOG-008 and the CPI reference.
+The vintage audit, forecast derivation and event join reject existing outputs;
+choose new suffixes for repeated runs. Archive parsers rebuild labels from hashed
+caches without refreshing sources. The forecast producer verifies its three source
+hashes and regenerates all 4,673 dated forecasts and 63 complete vendor candidates.
+A clean checkout does not contain third-party raw data; observed source routes,
+exact cache paths and historical-snapshot limitations are documented in LOG-008
+and the [CPI reference](docs/references/cpi-forecast-coverage.md).
 
 Measured: 318 archived monthly prints across a 321-month grid; two shutdown
 months have no official monthly target, and September 2026 is unreleased.

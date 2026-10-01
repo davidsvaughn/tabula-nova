@@ -125,10 +125,12 @@ months have no official monthly target, and September 2026 is unreleased.
 RTDSM First proxies match all 317 comparable prints; 61 Kalshi vendor values
 match official-target months, but its two shutdown values are excluded.
 155 dated Cleveland nowcasts join under the nominal cutoff convention.
-The frozen CPI runner has scored the three conventional baselines. Ridge narrowly
-passes the declared uncertainty check against the historical mean; this is not
-foundation-model or market-beating evidence. Full native-model comparisons are in
-progress. [LOG-009](docs/logs/LOG-009.md) starts with a plain-English assessment.
+All five frozen CPI models and their paired uncertainty analysis have completed.
+**LimiX has a small, inconclusive lead:** about 2.2% lower later distribution error
+than boosted trees, but no established advantage over ridge/trees. TabPFN does not
+demonstrate added skill. All models' nominal 80% intervals cover only 69–73% of
+later outcomes. This is not evidence of a major forecasting or market edge.
+[LOG-009](docs/logs/LOG-009.md) starts with the plain-English assessment and next steps.
 
 ### CPI prediction and uncertainty entrypoints
 
@@ -155,6 +157,17 @@ weights remain in Downloads and are verified before loading.
 `scripts/cpi_compare.py --results ... --output ...` checks matched completed
 artifacts and calculates paired 12-calendar-month block uncertainty; `--require-all`
 requires all five declared models. Missing months stay calendar gaps.
+
+The exercised full comparison, after producing all five artifacts:
+
+```sh
+.venv/bin/python scripts/cpi_compare.py --require-all \
+  --results data/research/cpi/cpi_mean.json data/research/cpi/cpi_ridge.json \
+    data/research/cpi/cpi_hgb.json data/research/cpi/cpi_tabpfn.json \
+    data/research/cpi/cpi_limix.json \
+  --output data/research/cpi/cpi-comparison-repeat.json
+```
+
 The available evidence supports a historical archival comparison under disclosed
 assumptions, **not independent first-publication/PIT certification**. Nowcast/
 market timing and genuine quote-update age remain separately unresolved.

@@ -16,6 +16,7 @@ engineering checks. No trading integration.
 - [Controlled feature and ensemble-size ablations](docs/logs/LOG-006.md)
 - [Official LimiX-2 macro comparison](docs/logs/LOG-007.md)
 - [CPI release coverage, frozen protocol and current next steps](docs/logs/LOG-008.md)
+- [CPI prediction hypotheses and current execution steps](docs/logs/LOG-009.md)
 - [Connected-project data inventory](docs/DATA-SOURCES.md)
 - Original discussions: [markets](docs/chats/001-tabpfn-for-markets.md), [foundation models](docs/chats/002-explain-tabular-foundation-models.md)
 

@@ -20,20 +20,17 @@ Original supplied discussions are in `docs/chats/`; their claims require verific
   to the general roadmap is not a substitute. Distinguish completed work from plans.
 - Clearly distinguish proposed work, documented past results, freshly measured results,
   and inference. Never report a model score unless that model actually ran.
-- **Commit and push each completed, verified slice immediately.** Separate protocol/
-  acquisition, parser/integration, and result checkpoints; do not accumulate them into
-  one end-of-phase commit. Push each commit before starting the next lengthy slice.
-- **Checkpoint cadence: target 10–15 minutes of active work between remote checkpoints.**
-  At 15 minutes, checkpoint any cohesive, verified work already complete. If code is
-  not ready, commit a sanitized latest-LOG progress checkpoint stating completed
-  evidence, outstanding work and the concrete blocker; never commit broken code merely
-  to meet the clock. Checkpoint the frozen protocol before a lengthy acquisition/run,
-  then record and push results promptly afterward. Do not interrupt a running model
-  just for a timer or stage files another agent is still editing.
-- Use explicit file staging and keep commits cohesive. Do not force-push, rewrite user
-  history, include unrelated user edits or stage secrets/raw licensed data. A local
-  commit is not a remote checkpoint: report push failures immediately without claiming
-  success, resolve them when safe, and include the successfully pushed hash in updates.
+- **Commit and push immediately when a verified slice completes, a script's real-data
+  smoke passes, or its todo item is marked done.** This event trigger is primary:
+  separate protocol, acquisition, integration and result checkpoints; do not wait
+  for the final LOG-writing step. Push protocols before lengthy runs.
+- Target 10–15 minutes between remote checkpoints as a fallback. During longer
+  unfinished work, push a truthful sanitized progress LOG with exact next actions,
+  not broken code. Never stage another agent's in-flight files or interrupt a model
+  solely for a timer.
+- Stage explicit files only; exclude unrelated edits, secrets and raw licensed data.
+  Never force-push or rewrite user history. Report push failures immediately; a local
+  commit is not a remote checkpoint. Include the successfully pushed hash in updates.
 - Update README links when adding a major research entrypoint. Preserve original chats.
 
 ## Secrets, data, and external projects

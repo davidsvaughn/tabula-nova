@@ -15,8 +15,9 @@ engineering checks. No trading integration.
 - [GDP-probability results, reference findings, and resource checks](docs/logs/LOG-005.md)
 - [Controlled feature and ensemble-size ablations](docs/logs/LOG-006.md)
 - [Official LimiX-2 macro comparison](docs/logs/LOG-007.md)
-- [CPI release coverage, frozen protocol and current next steps](docs/logs/LOG-008.md)
-- [CPI prediction hypotheses and current execution steps](docs/logs/LOG-009.md)
+- [CPI release coverage and frozen restricted-information protocol](docs/logs/LOG-008.md)
+- [Completed five-model CPI comparison](docs/logs/LOG-009.md)
+- [Paused reassessment: original intent, promising direction and current next steps](docs/logs/LOG-010.md)
 - [Connected-project data inventory](docs/DATA-SOURCES.md)
 - Original discussions: [markets](docs/chats/001-tabpfn-for-markets.md), [foundation models](docs/chats/002-explain-tabular-foundation-models.md)
 
@@ -130,7 +131,10 @@ All five frozen CPI models and their paired uncertainty analysis have completed.
 than boosted trees, but no established advantage over ridge/trees. TabPFN does not
 demonstrate added skill. All models' nominal 80% intervals cover only 69–73% of
 later outcomes. This is not evidence of a major forecasting or market edge.
-[LOG-009](docs/logs/LOG-009.md) starts with the plain-English assessment and next steps.
+[LOG-009](docs/logs/LOG-009.md) records the measured comparison.
+[LOG-010](docs/logs/LOG-010.md) reassesses the original chats and recommends studying
+when an existing nowcast needs correction or wider uncertainty, using timely energy
+evidence. Experiments are paused; source feasibility and a bounded protocol come first.
 
 ### CPI prediction and uncertainty entrypoints
 

@@ -14,6 +14,15 @@ Updated 2026-10-01. Supersedes the equity-heavy priority ordering in LOG-003. **
 
 The GDP results favor strong consensus; the CPI results show ordinary learned baselines are competitive with these native models. LimiX's small lead is a weak positive hint, not a demonstrated major forecasting advantage. The six-feature lag-only CPI experiment does not test richer timely inputs, direct distributional models or forecast combination; those remain open hypotheses.
 
+**Current direction after the user-requested pause:** [LOG-010](logs/LOG-010.md)
+reviews every document and both original chats. Lead question: can timely economic
+evidence identify predictable errors or uncertainty in a good existing forecast?
+Start with energy-informed CPI around the Cleveland nowcast, only after a bounded
+source/clock audit; distinguish information value, correction value and incremental
+foundation-model value. Continuous SPF consensus-error correction is the backup,
+not an assumed larger or cleaner confirmation sample. No new inference is authorized
+by this reassessment itself.
+
 ## Three complementary tracks
 
 ### A. Recurring macro distributions and forecast combination
@@ -32,7 +41,7 @@ Best near-term source of repeated, explicitly resolvable outcomes. The target is
 
 1. **Completed:** frozen SPF means-only/drop-response-count ablations crossed with two/eight estimators. Original scores and all variants preserved in LOG-006. Removing count did not fix the failure pattern; means-only and eight estimators improved some metrics but did not beat consensus. Stop selecting configurations on this already-seen cohort. A rolling-context experiment, if pursued, must be separately declared rather than silently replacing the frozen blocks.
 2. **Completed CPI experiment:** source reconciliation, publication/correction adjudication, both native regression smokes, all five frozen model runs and the paired calendar-block analysis are complete. Neither native model passes the declared stronger-baseline criterion. LOG-009 reports actual scores, interval misses and a plain-English conclusion. Keep bounded archival assumptions distinct from strict PIT certification; dated current-history downloads or candle bucket age do not certify historical information.
-3. **Next hypothesis, not rescue tuning:** investigate a small richer-input experiment with defensible pre-release clocks, unchanged conventional/native configurations and an independently declared holdout; start immutable prospective capture of model and professional forecasts. Do not select settings on these now-seen CPI outcomes. A TS3/wrapper that drops covariates remains a distinct restricted-information comparison.
+3. **Reassessed next study, currently paused:** design evidence-conditioned nowcast correction/uncertainty, not another lag-only rematch. Audit one EIA retail-gasoline series and Cleveland history first, then freeze matched information arms, direct nowcast/simple conditional baselines, practical effect and event-aware power. Existing CPI periods remain seen; historical schedule assumptions must be disclosed. The current EIA pages say Tuesday around 10am ET, not an assumed Monday posting. See LOG-010 for evidence, alternatives and executable next steps.
 4. Add another family only after clocks, scoreability and sample counts are sound. A panel can improve diversity, but combining countries or target families requires explicit semantics and holdouts, not arbitrary row inflation.
 
 ### B. Broad, judgment-intensive superforecasting

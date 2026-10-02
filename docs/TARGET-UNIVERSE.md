@@ -87,11 +87,19 @@ surprises → monthly prices**. The project started at the bottom of that list.
    quantiles/CRPS and reliability tables were LOG-010's "bounded secondary method"; they
    should be the primary distributional method in any next study. LimiX's native output
    semantics must be checked separately (LOG-010:101).
-2. **The prior went in as a feature, not as an offset.** Chat 003's structure is
-   `logit P = logit p_prior + g(x)` / `y = prior + g(x)`: predict the residual of the
-   professional prior and shrink toward it. GDP used SPF as one column among several and
-   asked TabPFN to re-derive consensus from ten positives. Revisions and the survey chain
-   are residual-form by construction.
+2. **The prior went in as a feature, not as an offset — and an offset alone is not
+   shrinkage.** Chat 003's structure is `logit P = logit p_prior + g(x)` /
+   `y = prior + g(x)`. The offset only *anchors* the prediction at the prior; the
+   correction is only as conservative as `g` is regularized. Shrinkage has to be built
+   explicitly: penalize `g` toward zero (ridge on the residual model), or gate it with a
+   past-only chosen weight `λ ∈ [0,1]` so the forecast is `prior + λ·ĝ(x)` (or a convex
+   combination of prior and model), with `λ` selected on earlier folds and reported.
+   TabPFN's learned prior is over data-generating processes; it does **not** perform a
+   Bayesian update of the supplied forecast. Any "posterior given the prior" structure
+   therefore lives outside the model: TabPFN predicts the residual (with its predictive
+   distribution), and the anchoring/shrinkage/gating is a separate, past-only step. GDP
+   used SPF as one column among several and asked TabPFN to re-derive consensus from ten
+   positives. Revisions and the survey chain are residual-form by construction.
 3. **No reliability curve exists for any prior on a frozen cohort.** Cleveland, SPF
    probabilities and the 61 matched Kalshi CPI settlements have Brier/CRPS scores in places
    but no calibration tables. The chat's hierarchical calibrator (global → domain → regime)
@@ -108,8 +116,17 @@ surprises → monthly prices**. The project started at the bottom of that list.
 
 ## Proposed order (proposal, not a decision)
 
-1. **Calibration audit of priors already held** — Cleveland, SPF, matched Kalshi CPI
-   settlements: reliability tables and proper scores on frozen cohorts. No model fits.
+1. **Calibration audit of priors already held.** Two kinds of prior, two kinds of audit:
+   - *Probability priors* (SPF recession probabilities by horizon; Kalshi CPI contract
+     prices at verified cutoffs; SPF density bins where coverage allows): reliability
+     tables with Wilson intervals and a Murphy decomposition of Brier
+     (reliability / resolution / uncertainty), which separates "miscalibrated" from
+     "undiscriminating." No model fits. Kalshi is gated on verifying cutoff-quote coverage
+     beyond the three probed events.
+   - *Point priors* (Cleveland nowcast): a point forecast has no reliability table. Audit
+     bias and error scale by regime/month-of-year first; interval coverage only after
+     declaring a past-only error/distribution wrapper (LOG-010:98), and label that
+     coverage as the wrapper's, not the nowcast's.
    Establishes the baseline the calibration program needs.
 2. **First residual-form study on a high-count target** — weekly claims or NFP revisions,
    native TabPFN predictive distributions scored, prior as offset. Requires an ALFRED

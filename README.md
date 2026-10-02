@@ -18,8 +18,9 @@ engineering checks. No trading integration.
 - [CPI release coverage and frozen restricted-information protocol](docs/logs/LOG-008.md)
 - [Completed five-model CPI comparison](docs/logs/LOG-009.md)
 - [Paused reassessment: original intent, promising direction and current next steps](docs/logs/LOG-010.md)
+- [Brainstorm: Jev as feature extractor, TabPFN as learner, on Kalshi/stock-news panels](docs/logs/LOG-011.md)
 - [Connected-project data inventory](docs/DATA-SOURCES.md)
-- Original discussions: [markets](docs/chats/001-tabpfn-for-markets.md), [foundation models](docs/chats/002-explain-tabular-foundation-models.md)
+- Original discussions: [markets](docs/chats/001-tabpfn-for-markets.md), [foundation models](docs/chats/002-explain-tabular-foundation-models.md), [probability calibration](docs/chats/003-explain-probability-calibration.md)
 
 ### Source references
 

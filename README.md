@@ -8,6 +8,7 @@ engineering checks. No trading integration.
 ## Investigation
 
 - [Current macro/superforecasting research plan](docs/MACRO-RESEARCH.md)
+- [Target universe, four-ingredient rating, and the priors/calibration gap](docs/TARGET-UNIVERSE.md)
 - [Initial hypotheses and plan](docs/logs/LOG-001.md)
 - [Executed probes, failures, and baseline results](docs/logs/LOG-002.md)
 - [Revised experiment priorities](docs/logs/LOG-003.md)
